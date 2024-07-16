@@ -34,5 +34,18 @@ strconv.Itoa(5555) // to string
 ```
 ___
 N5
+Как сделать строку строчной-заглавной?
+
+```go
+strings.ToLower() //строчная
+strings.ToUpper() //заглавные
+```
+___
+N6
+[]byte -> string
+
+```go
+string(arrayOfBytes)
+```
 ___
 
