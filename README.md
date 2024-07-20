@@ -291,8 +291,116 @@ a := append(arr[:2], arr[3:]...) //ломает исходный слайс
 fmt.Println(a)
 ```
 ___
+N25 Что такое defer функции?
 
+defer функции - это функции с отложенным выполнением. Они складываются в стек, и 
+___
+N26 panic
+
+Рассмотрим панику и выход из неё
+```go
+func myPanic() {
+	defer func() {
+		panicValue := recover()
+		fmt.Println("->", panicValue)
+	}()
+	panic("something bad happened")
+}
+```
+___
+N27
+WaitGroup???
+___
+N28
+Mutex???
+___
+N29
+RWMutex
+
+То же самое, что и Mutex, но с блокировкой на чтение.
+___
+N30 <-> N13
+Что такое канал?
+
+Канал - это инструмент обмена данными между горутинами.
+
+```go
+type chan struct {
+	mx sync.mutex
+	buffer T //опционально
+	readers []Goroutines
+	writers []Goroutines
+}
+```
+Необходимо две горутины для работы канала - на чтение и на запись:
+```go
+    channel := make(chan int)//обьявление интовой горутины
+	go func(write chan<- int) {
+		time.Sleep(time.Second)
+
+		write <- 1
+	}(channel)
+
+	go func(read <-chan int) {
+		time.Sleep(time.Second)
+		fmt.Println(<-read)
+	}(channel)
+```
+___
+N31
+Направленность канала?
+
+[Источник](https://www.youtube.com/watch?v=ngEj0ZwQEn0&list=PLc2Vkg57qmuRNHp6NNvYRVgg3OP-b5E_v&index=21)
+
+```go
+writeChan := make(chan<- int) // можем только записывать, записи нет
+```
+```go
+writeChan := make(<-chan int) // канал только на чтение
+```
+___
+N32
+select?
+
+
+select выбирает неблокирующую операцию с каналом.
+
+Если в select несколько неблокирующих операций, 
+select выбирает рандомно.
+```go
+func main() {
+	buffered := make(chan int, 1)
+	buffered <- 1
+	select {
+	case str := <-buffered: //выбрал неблокирующую операцию при буфере 1
+		fmt.Println("read ", str)
+	case buffered <- 2:
+		fmt.Println("write ", <-buffered, <-buffered)
+	}
+}
+
+```
+___
+N33 Что такое контекст?
+
+Context - обьект который служит для двух целей:
+
+- хранить значения (для передачи в горутины)
+- сообщить о завершении
+
+Можно создать контекст Backgound и TODO
+___
+N34
+___
+N35
+___
+N36
+___
+N37
 ___
 Для просмотра
-- https://www.youtube.com/watch?v=_rTuAY7b1RE
-- 
+- [Самые популярные вопросы на собеседовании (80%)](https://www.youtube.com/watch?v=_rTuAY7b1RE)
+
+
+- [Менторинг, нужен ли?](https://www.youtube.com/watch?v=b2qJYHS_JvM) И сколько платят на рынке (500к)
+- [Senior+ lvl Mock interview](https://www.youtube.com/watch?v=hpwDdACSfrI&t=307s)

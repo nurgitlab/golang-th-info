@@ -13,7 +13,7 @@ type Person struct {
 }
 
 type AnimalCan interface {
-	Run(s string) string
+	Run(s string) string //будут только те методыm
 }
 
 func (a *Animal) Run(s string) string {
