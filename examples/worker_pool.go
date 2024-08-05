@@ -10,7 +10,7 @@ import (
 
 func main() {
 	ctx, cancel := context.WithCancel(context.Background())
-	defer cancel() //можно вызвать где нибудь по условию
+	defer cancel() //можно вызвать где-нибудь по условию
 
 	wg := &sync.WaitGroup{}
 
@@ -20,7 +20,7 @@ func main() {
 		wg.Add(1)
 		go func() {
 			defer wg.Done()
-			worker(ctx, to, after) //запустили воркеры
+			worker(ctx, to, after) //запустили workers
 		}()
 	}
 
@@ -37,8 +37,7 @@ func main() {
 	}()
 
 	counter := 0
-
-	for v := range after { // итеррируемся по каналам
+	for v := range after { // итерируемся по каналам
 		counter++
 		fmt.Println(v)
 	}
